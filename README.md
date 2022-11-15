@@ -25,6 +25,3 @@ npm i sass
 
 https://react-icons.github.io/react-icons/   
 npm install @react-icons/all-files --save   
-#� �r�e�a�c�t�_�y�o�u�t�u�b�e�  
-�
-�
