@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import ReactPlayer from 'react-player'
-import { useParams } from 'react-router-dom'
 import { fetchAPI } from '../utils/fetchAPI'
+import { Video, Loader } from './index'
+import { useParams, Link } from 'react-router-dom'
 const VideoConts = () => {
   const [videoDetail, setVideoDetail] = useState(null)
   const [videos, setVideos] = useState(null)
   const { id } = useParams()
+
   useEffect(() => {
     fetchAPI(`videos?part=snippet,statistics&id=${id}`).then((data) =>
       setVideoDetail(data.items[0])
@@ -15,10 +17,14 @@ const VideoConts = () => {
       (data) => setVideos(data.items)
     )
   }, [id])
-  // const {
-  //   snippet: { title, channelId, channelTitle },
-  //   statistics: { viewCount, likeCount },
-  // } = videoDetail
+
+  if (!videoDetail?.snippet) return <Loader />
+
+  const {
+    snippet: { title, channelId, channelTitle },
+    statistics: { viewCount, likeCount },
+  } = videoDetail
+
   return (
     <section className="videoConts">
       <div className="container">
@@ -30,9 +36,18 @@ const VideoConts = () => {
                 controls
               />
             </div>
-            <div className="desc"></div>
+            <div className="desc">
+              <span className="title">{title}</span>
+              <div className="channel">
+                <Link to={`/channel/${channelId}`}>{channelTitle}</Link>
+              </div>
+              <div className="viewCount">조회수{viewCount}</div>
+              <div className="likeCount">좋아요{likeCount}</div>
+            </div>
           </div>
-          <div className="right"></div>
+          <div className="right">
+            <Video videos={videos} />
+          </div>
         </div>
       </div>
     </section>
