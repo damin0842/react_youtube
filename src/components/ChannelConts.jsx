@@ -44,7 +44,7 @@ const ChannelConts = () => {
         </div>
       </div>
       <div className="channel-videos">
-        <Video />
+        <Video videos={videos} />
       </div>
     </section>
   )
